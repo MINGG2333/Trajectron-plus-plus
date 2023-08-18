@@ -40,6 +40,10 @@ python process_data.py # This will take around 10-15 minutes, depending on your 
 #### nuScenes Dataset ####
 Download the nuScenes dataset (this requires signing up on [their website](https://www.nuscenes.org/)). Note that the full dataset is very large, so if you only wish to test out the codebase and model then you can just download the nuScenes "mini" dataset which only requires around 4 GB of space. Extract the downloaded zip file's contents and place them in the `experiments/nuScenes` directory. Then, download the map expansion pack (v1.1) and copy the contents of the extracted `maps` folder into the `experiments/nuScenes/v1.0-mini/maps` folder. Finally, process them into a data format that our model can work with.
 ```
+tar zxvf v1.0-mini.tgz # mini-data
+unzip nuScenes-map-expansion-v1.1.zip -d v1.0-mini/ # maps
+
+
 cd experiments/nuScenes
 
 # For the mini nuScenes dataset, use the following
