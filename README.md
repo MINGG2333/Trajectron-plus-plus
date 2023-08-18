@@ -41,16 +41,16 @@ python process_data.py # This will take around 10-15 minutes, depending on your 
 Download the nuScenes dataset (this requires signing up on [their website](https://www.nuscenes.org/)). Note that the full dataset is very large, so if you only wish to test out the codebase and model then you can just download the nuScenes "mini" dataset which only requires around 4 GB of space. Extract the downloaded zip file's contents and place them in the `experiments/nuScenes` directory. Then, download the map expansion pack (v1.1) and copy the contents of the extracted `maps` folder into the `experiments/nuScenes/v1.0-mini/maps` folder. Finally, process them into a data format that our model can work with.
 ```
 tar zxvf v1.0-mini.tgz # mini-data
-unzip nuScenes-map-expansion-v1.1.zip -d v1.0-mini/ # maps
+unzip nuScenes-map-expansion-v1.1.zip -d ./ # maps
 
 
 cd experiments/nuScenes
 
 # For the mini nuScenes dataset, use the following
-python process_data.py --data=./v1.0-mini --version="v1.0-mini" --output_path=../processed
+python process_data.py --data=/zhitai/nuScenes_mini --version="v1.0-mini" --output_path=../processed
 
 # For the full nuScenes dataset, use the following
-python process_data.py --data=./v1.0 --version="v1.0-trainval" --output_path=../processed
+python process_data.py --data=/zhitai/nuScenes --version="v1.0-trainval" --output_path=../processed
 ```
 In case you also want a validation set generated (by default this will just produce the training and test sets), replace line 406 in `process_data.py` with:
 ```
@@ -85,7 +85,7 @@ To train a model on the nuScenes dataset, you can execute one of the following c
 |-------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Base                                      | `python train.py --eval_every 1 --vis_every 1 --conf ../experiments/nuScenes/models/vel_ee/config.json --train_data_dict nuScenes_train_full.pkl --eval_data_dict nuScenes_val_full.pkl --offline_scene_graph yes --preprocess_workers 10 --batch_size 256 --log_dir ../experiments/nuScenes/models --train_epochs 20 --node_freq_mult_train --log_tag _vel_ee --augment`                      |
 | +Dynamics Integration                     | `python train.py --eval_every 1 --vis_every 1 --conf ../experiments/nuScenes/models/int_ee/config.json --train_data_dict nuScenes_train_full.pkl --eval_data_dict nuScenes_val_full.pkl --offline_scene_graph yes --preprocess_workers 10 --batch_size 256 --log_dir ../experiments/nuScenes/models --train_epochs 20 --node_freq_mult_train --log_tag _int_ee --augment`                      |
-| +Dynamics Integration, Maps               | `python train.py --eval_every 1 --vis_every 1 --conf ../experiments/nuScenes/models/int_ee_me/config.json --train_data_dict nuScenes_train_full.pkl --eval_data_dict nuScenes_val_full.pkl --offline_scene_graph yes --preprocess_workers 10 --batch_size 256 --log_dir ../experiments/nuScenes/models --train_epochs 20 --node_freq_mult_train --log_tag _int_ee_me --map_encoding --augment` |
+| +Dynamics Integration, Maps               | `python train.py --eval_every 1 --vis_every 1 --conf ../experiments/nuScenes/models/int_ee_me/config.json --train_data_dict nuScenes_train_full.pkl --eval_data_dict nuScenes_test_full.pkl --offline_scene_graph yes --preprocess_workers 10 --batch_size 256 --log_dir ../experiments/nuScenes/models --train_epochs 20 --node_freq_mult_train --log_tag _int_ee_me --map_encoding --augment` |
 | +Dynamics Integration, Maps, Robot Future | `python train.py --eval_every 1 --vis_every 1 --conf ../experiments/nuScenes/models/robot/config.json --train_data_dict nuScenes_train_full.pkl --eval_data_dict nuScenes_val_full.pkl --offline_scene_graph yes --preprocess_workers 10 --batch_size 256 --log_dir ../experiments/nuScenes/models --train_epochs 20 --node_freq_mult_train --log_tag _robot --incl_robot_node --map_encoding` |
 
 In case you also want to produce the version of our model that was trained without the ego-vehicle (first row of Table 4 (b) in the paper), then run the command from the third row of the table above, but change line 132 of `train.py` to:

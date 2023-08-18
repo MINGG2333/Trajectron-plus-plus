@@ -9,9 +9,10 @@ from pyquaternion import Quaternion
 from kalman_filter import NonlinearKinematicBicycle
 from sklearn.model_selection import train_test_split
 
-nu_path = './devkit/python-sdk/'
+import pathlib
+nu_path = '/zhitai/Trajectron-plus-plus/experiments/nuScenes/devkit/python-sdk/'
 sys.path.append(nu_path)
-sys.path.append("../../trajectron")
+sys.path.append("/zhitai/Trajectron-plus-plus/trajectron")
 from nuscenes.nuscenes import NuScenes
 from nuscenes.map_expansion.map_api import NuScenesMap
 from nuscenes.utils.splits import create_splits_scenes
@@ -403,7 +404,7 @@ def process_data(data_path, version, output_path, val_split):
     splits = create_splits_scenes()
     train_scenes, val_scenes = train_test_split(splits['train' if 'mini' not in version else 'mini_train'], test_size=val_split)
     train_scene_names = splits['train' if 'mini' not in version else 'mini_train']
-    val_scene_names = []#val_scenes
+    val_scene_names = val_scenes
     test_scene_names = splits['val' if 'mini' not in version else 'mini_val']
 
     ns_scene_names = dict()
@@ -447,6 +448,8 @@ def process_data(data_path, version, output_path, val_split):
             if 'mini' in version:
                 mini_string = '_mini'
             data_dict_path = os.path.join(output_path, 'nuScenes_' + data_class + mini_string + '_full.pkl')
+            print(f"save in: \n{output_path}")
+            pathlib.Path(f"{output_path}").mkdir(exist_ok=True)
             with open(data_dict_path, 'wb') as f:
                 dill.dump(env, f, protocol=dill.HIGHEST_PROTOCOL)
             print('Saved Environment!')
