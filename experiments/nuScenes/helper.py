@@ -86,7 +86,7 @@ def plot_vehicle_nice(ax, predictions, dt, max_hl=10, ph=6, map=None, x_min=0, y
                     path_effects=[pe.Stroke(linewidth=5, foreground='k'), pe.Normal()])
 
             for t in range(predictions.shape[2]):
-                sns.kdeplot(predictions[0, :, t, 0], predictions[0, :, t, 1],
+                sns.kdeplot(x=predictions[0, :, t, 0], y=predictions[0, :, t, 1],
                             ax=ax, shade=True, shade_lowest=False,
                             color=line_colors[i % len(line_colors)], zorder=600, alpha=0.8)
 
@@ -103,7 +103,7 @@ def plot_vehicle_nice(ax, predictions, dt, max_hl=10, ph=6, map=None, x_min=0, y
             # ax.plot(history[:, 0], history[:, 1], 'k--')
 
             for t in range(predictions.shape[2]):
-                sns.kdeplot(predictions[0, :, t, 0], predictions[0, :, t, 1],
+                sns.kdeplot(x=predictions[0, :, t, 0], y=predictions[0, :, t, 1],
                             ax=ax, shade=True, shade_lowest=False,
                             color='b', zorder=600, alpha=0.8)
 
@@ -204,7 +204,7 @@ def plot_vehicle_nice_mv(ax, predictions, dt, max_hl=10, ph=6, map=None, x_min=0
         predictions = prediction_dict[node] + np.array([x_min, y_min]) + 5 * np.array([np.cos(h), np.sin(h)])
         if node.type.name == 'VEHICLE':
             for t in range(predictions.shape[2]):
-                sns.kdeplot(predictions[0, :, t, 0], predictions[0, :, t, 1],
+                sns.kdeplot(x=predictions[0, :, t, 0], y=predictions[0, :, t, 1],
                             ax=ax, shade=True, shade_lowest=False,
                             color=line_colors[i % len(line_colors)], zorder=600, alpha=1.0)
 
@@ -218,7 +218,7 @@ def plot_vehicle_nice_mv(ax, predictions, dt, max_hl=10, ph=6, map=None, x_min=0
         else:
 
             for t in range(predictions.shape[2]):
-                sns.kdeplot(predictions[:, t, 0], predictions[:, t, 1],
+                sns.kdeplot(x=predictions[:, t, 0], y=predictions[:, t, 1],
                             ax=ax, shade=True, shade_lowest=False,
                             color='b', zorder=600, alpha=0.8)
 

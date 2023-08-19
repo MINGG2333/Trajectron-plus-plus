@@ -1,3 +1,6 @@
+experiments/nuScenes/models/models_*/
+experiments/nuScenes/models/*/plots/
+
 pred_figs/
 processed/
 public-code/

@@ -36,7 +36,7 @@ def plot_trajectories(ax,
             if kde and predictions.shape[1] >= 50:
                 line_alpha = 0.2
                 for t in range(predictions.shape[2]):
-                    sns.kdeplot(predictions[batch_num, :, t, 0], predictions[batch_num, :, t, 1],
+                    sns.kdeplot(x=predictions[batch_num, :, t, 0], y=predictions[batch_num, :, t, 1],
                                 ax=ax, shade=True, shade_lowest=False,
                                 color=np.random.choice(cmap), alpha=0.8)
 
